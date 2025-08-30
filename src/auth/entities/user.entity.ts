@@ -12,6 +12,12 @@ export class User extends Model {
     @Column
     password: string;
 
+    
+    @Column({
+        values: Object.values(ROLE)
+    })
+    role: string;
+
     // May Has Agent Profile
     @HasOne(() => Agent)
     agent: Agent;

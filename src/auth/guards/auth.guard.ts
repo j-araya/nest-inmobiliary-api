@@ -10,10 +10,11 @@ import { AuthService } from '../auth.service';
 import { ROLE, ROLES_KEY } from '../decorators/roles.decorator';
 import { JWTPayload } from '../entities/jwt-payload.entity';
 import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
+import { AgentService } from 'src/agent/agent.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private reflector: Reflector) { }
+  constructor(private authService: AuthService, private agentService: AgentService, private reflector: Reflector) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
 
@@ -34,13 +35,26 @@ export class AuthGuard implements CanActivate {
     const payload: JWTPayload | null = this.authService.validateJWT(
       token,
     );
-
+    
     if (!payload || !payload.role) {
       throw new UnauthorizedException('Invalid token');
     }
 
     request.user = payload;
-    
+
+
+    if (payload.role === ROLE.SUPERADMIN) {
+      return true;
+    }
+
+    // if (payload.role === ROLE.AGENT) {
+    //   const agent = await this.agentService.findOne(payload.userId);
+    //   if (!agent) {
+    //     throw new UnauthorizedException('Agent not found');
+    //   }
+    //   request.agent = agent;
+    // }
+
     const roles: ROLE[] = this.reflector.get<ROLE[]>(ROLES_KEY, context.getHandler())
 
     if (!roles || roles.length === 0) {

@@ -5,6 +5,10 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/auth/entities/user.entity';
 import { Agent } from './entities/agent.entity';
 import * as  bcrypt from 'bcrypt'
+import { ROLE } from 'src/auth/decorators/roles.decorator';
+import { plainToInstance } from 'class-transformer';
+import { AgentResponseDto } from './dto/agent-response.dto';
+import { UserResponseDto } from 'src/auth/dto/user-response.dto';
 
 @Injectable()
 export class AgentService {
@@ -15,34 +19,39 @@ export class AgentService {
     private agentModel: typeof Agent,
   ) { }
 
+  async findAll() {
+    const agents = await this.agentModel.findAll();
+    return plainToInstance(AgentResponseDto, agents.map(a => a.get({ plain: true })));
+  }
 
-  create(createAgentDto: CreateAgentDto) {
+  async findOne(id: number) {
+    const agent = await this.agentModel.findByPk(id);
+    if (!agent) return null;
+    return plainToInstance(AgentResponseDto, agent.get({ plain: true }));
+  }
+
+  async create(createAgentDto: CreateAgentDto) {
     // create user and agent with a postgress transaction in sequelize
     return this.userModel.sequelize?.transaction(async (transaction) => {
       const { password } = createAgentDto;
       const hashedPassword = bcrypt.hashSync(password, 10);
-      const user = await this.userModel.create({ ...createAgentDto, password: hashedPassword}, { transaction });
+      const user = await this.userModel.create({ ...createAgentDto, password: hashedPassword, role: ROLE.AGENT}, { transaction });
       const agent = await this.agentModel.create(
         { ...createAgentDto, userId: user.id } as any,
         { transaction }
       );
-      return { user, agent };
+      return {
+        user: plainToInstance(UserResponseDto, user.get({ plain: true })),
+        agent: plainToInstance(AgentResponseDto, agent.get({ plain: true })),
+      };
     });
   }
 
-  findAll() {
-    return `This action returns all agent`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} agent`;
-  }
-
   update(id: number, updateAgentDto: UpdateAgentDto) {
-    return `This action updates a #${id} agent`;
+    return this.agentModel.update(updateAgentDto, { where: { id } });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} agent`;
+    return this.agentModel.destroy({ where: { id } });
   }
 }

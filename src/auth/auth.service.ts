@@ -19,9 +19,9 @@ export class AuthService {
         return await this.userModel.findOne({ where: { email } });
     }
 
-    createUser(email: string, password: string) {
+    createUser(email: string, password: string, role: ROLE = ROLE.CUSTOMER) {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        return this.userModel.create({ email, password: hashedPassword });
+        return this.userModel.create({ email, password: hashedPassword, role });
     }
 
     async validateUser(email: string, password: string): Promise<User | null> {
