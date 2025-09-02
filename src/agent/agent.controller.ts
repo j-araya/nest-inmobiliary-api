@@ -5,11 +5,15 @@ import { UpdateAgentDto } from './dto/update-agent.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { ROLE, Roles } from 'src/auth/decorators/roles.decorator';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { PropertyService } from 'src/property/property.service';
 
 @UseGuards(AuthGuard)
 @Controller('agent')
 export class AgentController {
-  constructor(private readonly agentService: AgentService) {}
+  constructor(
+    private readonly agentService: AgentService,
+    private readonly propertyService: PropertyService, // inyecta el servicio
+  ) {}
 
   @Roles(ROLE.SUPERADMIN)
   @Post()
@@ -27,6 +31,12 @@ export class AgentController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.agentService.findOne(+id);
+  }
+
+  @IsPublic()
+  @Get(':id/properties')
+  findAgentProperties(@Param('id') id: string) {
+    return this.propertyService.findByAgent(+id);
   }
 
   @Roles(ROLE.SUPERADMIN)

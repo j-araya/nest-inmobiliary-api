@@ -5,10 +5,13 @@ import { User } from './entities/user.entity';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AgentService } from 'src/agent/agent.service';
+import { Agent } from 'src/agent/entities/agent.entity';
 
 @Global()
 @Module({
   imports: [
+
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -18,9 +21,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }
     }),
       SequelizeModule.forFeature([User]),
+      SequelizeModule.forFeature([Agent]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
-  exports: [AuthService]
+  providers: [AuthService, AgentService],
+  exports: [AuthService, AgentService]
 })
 export class AuthModule {}

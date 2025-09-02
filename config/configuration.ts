@@ -8,5 +8,10 @@ export default () => ({
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME
-    }
+    },
+    pagination: {
+        limit: parseInt(process.env.PAGINATION_LIMIT ?? '10', 10),
+    },
+    orderBy: process.env.ORDER_BY ?? 'createdAt',
+    orderDir: process.env.ORDER_DIR ?? 'DESC',
 });

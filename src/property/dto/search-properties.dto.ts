@@ -1,6 +1,6 @@
-import { IsOptional, IsString, IsNumber, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsBoolean, IsIn } from 'class-validator';
 
-export class FilterPropertyDto {
+export class SearchPropertiesDto {
   @IsOptional()
   @IsString()
   city?: string;
@@ -40,4 +40,25 @@ export class FilterPropertyDto {
   @IsOptional()
   @IsNumber()
   hoaFees?: number;
+
+  // Nuevos campos para búsqueda avanzada
+  @IsOptional()
+  @IsString()
+  query?: string;
+
+  @IsOptional()
+  @IsNumber()
+  page?: number;
+
+  @IsOptional()
+  @IsNumber()
+  limit?: number;
+
+  @IsOptional()
+  @IsString()
+  orderBy?: string;
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  orderDir?: 'ASC' | 'DESC';
 }

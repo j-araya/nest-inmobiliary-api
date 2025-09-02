@@ -4,12 +4,16 @@ import { AgentController } from './agent.controller';
 import { User } from 'src/auth/entities/user.entity';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Agent } from './entities/agent.entity';
+import { PropertyService } from 'src/property/property.service';
+import { PropertyModule } from 'src/property/property.module';
+import { Property } from 'src/property/entities/property.entity';
 
 @Module({
   controllers: [AgentController],
   imports: [
-    SequelizeModule.forFeature([User, Agent])
+    PropertyModule,
+    SequelizeModule.forFeature([User, Agent, Property])
   ],
-  providers: [AgentService],
+  providers: [AgentService, PropertyService],
 })
 export class AgentModule {}

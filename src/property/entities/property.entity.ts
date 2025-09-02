@@ -6,23 +6,14 @@ import { Agent } from 'src/agent/entities/agent.entity';
   tableName: 'properties',
   timestamps: true, // Esto habilitará las columnas `createdAt` y `updatedAt` automáticamente
 })
-export class Property  extends Model{
-    
-  @Column({
-    type: DataType.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    field: 'property_id',
-    comment: 'Identificador único de la propiedad'
-  })
-  propertyId: number;
+export class Property extends Model {
 
   // --- 1. Identificación y Referencias ---
   @ForeignKey(() => Agent)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    field: 'agent_id',
+
     comment: 'ID del agente (clave foránea)'
   })
   agentId: number;
@@ -59,7 +50,7 @@ export class Property  extends Model{
 
   @Column({
     type: DataType.STRING(50),
-    field: 'sub_type',
+
     comment: 'Subtipo de la propiedad (ej. Penthouse)'
   })
   subType: string;
@@ -76,14 +67,14 @@ export class Property  extends Model{
 
   @Column({
     type: DataType.STRING,
-    field: 'state_province',
+
     comment: 'Estado o provincia'
   })
   stateProvince: string;
 
   @Column({
     type: DataType.STRING(20),
-    field: 'zip_code',
+
     comment: 'Código postal'
   })
   zipCode: string;
@@ -116,27 +107,27 @@ export class Property  extends Model{
 
   @Column({
     type: DataType.INTEGER,
-    field: 'half_bathrooms'
+
   })
   halfBathrooms: number;
 
   @Column({
     type: DataType.FLOAT,
-    field: 'square_footage_m2',
+
     comment: 'Superficie habitable en m²'
   })
   squareFootageM2: number;
 
   @Column({
     type: DataType.FLOAT,
-    field: 'lot_size_m2',
+
     comment: 'Tamaño del terreno en m²'
   })
   lotSizeM2: number;
 
   @Column({
     type: DataType.INTEGER,
-    field: 'year_built',
+
     comment: 'Año de construcción'
   })
   yearBuilt: number;
@@ -144,7 +135,7 @@ export class Property  extends Model{
 
   @Column({
     type: DataType.INTEGER,
-    field: 'parking_spaces'
+
   })
   parkingSpaces: number;
 
@@ -154,50 +145,50 @@ export class Property  extends Model{
   // --- 5. Amenidades y Servicios ---
   @Column({
     type: DataType.BOOLEAN,
-    field: 'has_pool',
+
     comment: '¿Tiene piscina?'
   })
   hasPool: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'has_balcony'
+
   })
   hasBalcony: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'has_power_plant'
+
   })
   hasPowerPlant: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'has_water_hole'
+
   })
   hasWaterHole: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'has_garden'
+
   })
   hasGarden: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'is_furnished'
+
   })
   isFurnished: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'is_gated_community'
+
   })
   isGatedCommunity: boolean;
 
   @Column({
     type: DataType.DECIMAL(10, 2),
-    field: 'hoa_fees',
+
     comment: 'Cuotas de la HOA'
   })
   hoaFees: number;
@@ -205,25 +196,25 @@ export class Property  extends Model{
   // --- 6. Medios y Visuales ---
   @Column({
     type: DataType.STRING(255),
-    field: 'main_image_url'
+
   })
   mainImageUrl: string;
 
   @Column({
     type: DataType.STRING(255),
-    field: 'virtual_tour_url'
+
   })
   virtualTourUrl: string;
 
   @Column({
     type: DataType.STRING(255),
-    field: 'video_url'
+
   })
   videoUrl: string;
 
   @Column({
     type: DataType.JSONB,
-    field: 'image_urls',
+
     comment: 'Arreglo de URLs de imágenes'
   })
   imageUrls: string[];
@@ -231,13 +222,13 @@ export class Property  extends Model{
   // --- 7. Información Legal y de Publicación ---
   @Column({
     type: DataType.DATE,
-    field: 'listing_start_date'
+
   })
   listingStartDate: Date;
 
   @Column({
     type: DataType.DATE,
-    field: 'listing_end_date'
+
   })
   listingEndDate: Date;
 
@@ -245,19 +236,19 @@ export class Property  extends Model{
 
   @Column({
     type: DataType.DATE,
-    field: 'last_viewed_at'
+
   })
   lastViewedAt: Date;
 
   @Column({
     type: DataType.STRING(50),
-    field: 'legal_status'
+
   })
   legalStatus: string;
 
   @Column({
     type: DataType.STRING(50),
-    field: 'zoning_type'
+
   })
   zoningType: string;
 }
