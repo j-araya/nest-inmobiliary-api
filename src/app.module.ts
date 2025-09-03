@@ -10,10 +10,12 @@ import { Agent } from './agent/entities/agent.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
 import { AgentModule } from './agent/agent.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 
 @Module({
   imports: [
-    
     ConfigModule.forRoot(
       {
         envFilePath: '.env',
@@ -44,9 +46,15 @@ import { AgentModule } from './agent/agent.module';
           }
         }
       }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'media'), 
+      serveRoot: '/media',
+      exclude: ['/'],
+    }),
       AgentModule,
       PropertyModule, 
-      AuthModule,
+      AuthModule, 
   ],
   controllers: [AppController],
   providers: [AppService,],

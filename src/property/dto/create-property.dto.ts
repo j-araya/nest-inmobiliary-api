@@ -190,4 +190,11 @@ export class CreatePropertyDto {
   @IsOptional()
   @IsString()
   remarks: string;
+
+  @IsOptional()
+  mainImage: Express.Multer.File;
+
+  @IsOptional()
+  images: Express.Multer.File[];
+
 }
