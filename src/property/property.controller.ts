@@ -46,10 +46,10 @@ async create(
   const images = files.images || [];
 
   if (mainImage) {
-    createPropertyDto.mainImageUrl = `/media/properties/${mainImage.filename}`;
+    createPropertyDto.mainImageUrl = `properties/${mainImage.filename}`;
   }
   if (images.length > 0) {
-    createPropertyDto.imageUrls = images.map(img => `/media/properties/${img.filename}`);
+    createPropertyDto.imageUrls = images.map(img => `properties/${img.filename}`);
   }
 
   return this.propertyService.create(createPropertyDto);
@@ -100,10 +100,10 @@ async update(
   const images = files.images || [];
 
   if (mainImage) {
-    updatePropertyDto.mainImageUrl = `/media/properties/${mainImage.filename}`;
+    updatePropertyDto.mainImageUrl = `properties/${mainImage.filename}`;
   }
   if (images && images.length > 0) {
-    updatePropertyDto.imageUrls = images.map(img => `/media/properties/${img.filename}`);
+    updatePropertyDto.imageUrls = images.map(img => `properties/${img.filename}`);
   }
 
   return this.propertyService.update(id, updatePropertyDto);
